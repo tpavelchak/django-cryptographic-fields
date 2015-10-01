@@ -4,7 +4,7 @@ from django.utils.six import with_metaclass
 from django.utils.functional import cached_property
 from django.core import validators
 
-from settings import FIELD_ENCRYPTION_KEY
+from cryptographic_fields.settings import FIELD_ENCRYPTION_KEY
 
 import cryptography.fernet
 
@@ -50,6 +50,9 @@ class EncryptedMixin(object):
         self.unencrypted_max_length = self.max_length
         self.max_length = calc_encrypted_length(self.unencrypted_max_length)
 
+    def __eq__(self, other):
+        return other.deconstruct() == self.deconstruct()
+        
     def to_python(self, value):
         if value is None:
             return value
