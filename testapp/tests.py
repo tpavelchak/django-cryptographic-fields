@@ -1,5 +1,3 @@
-from __future__ import unicode_literals
-
 import datetime
 import mock
 
@@ -90,13 +88,13 @@ class TestModelTestCase(TestCase):
 
     def test_unicode_value(self):
         inst = models.TestModel()
-        inst.enc_char_field = u'\xa2\u221e\xa7\xb6\u2022\xaa'
-        inst.enc_text_field = u'\xa2\u221e\xa7\xb6\u2022\xa2'
+        inst.enc_char_field = '\xa2\u221e\xa7\xb6\u2022\xaa'
+        inst.enc_text_field = '\xa2\u221e\xa7\xb6\u2022\xa2'
         inst.save()
 
         inst2 = models.TestModel.objects.get()
-        self.assertEqual(inst2.enc_char_field, u'\xa2\u221e\xa7\xb6\u2022\xaa')
-        self.assertEqual(inst2.enc_text_field, u'\xa2\u221e\xa7\xb6\u2022\xa2')
+        self.assertEqual(inst2.enc_char_field, '\xa2\u221e\xa7\xb6\u2022\xaa')
+        self.assertEqual(inst2.enc_text_field, '\xa2\u221e\xa7\xb6\u2022\xa2')
 
     @mock.patch('django.db.models.sql.compiler.SQLCompiler.get_converters')
     def test_raw_value(self, get_converters_method):
@@ -117,7 +115,7 @@ class TestModelTestCase(TestCase):
         inst.save()
 
         d = models.TestModel.objects.values()[0]
-        for key, value in d.items():
+        for key, value in list(d.items()):
             if key == 'id':
                 continue
             self.assertEqual(value[:7], 'gAAAAAB', '{} failed: {}'.format(key, value))

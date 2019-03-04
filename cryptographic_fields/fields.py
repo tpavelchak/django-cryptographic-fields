@@ -1,7 +1,3 @@
-from __future__ import unicode_literals
-
-import sys
-
 import django.db
 import django.db.models
 from django.utils.six import PY2, string_types
@@ -80,7 +76,7 @@ class EncryptedMixin(object):
         if value is None:
             return value
         if PY2:
-            return encrypt_str(unicode(value))
+            return encrypt_str(str(value))
         # decode the encrypted value to a unicode string, else this breaks in pgsql
         return (encrypt_str(str(value))).decode('utf-8')
 
@@ -127,7 +123,7 @@ class EncryptedBooleanField(EncryptedMixin, django.db.models.BooleanField):
         elif value is False:
             value = '0'
         if PY2:
-            return encrypt_str(unicode(value))
+            return encrypt_str(str(value))
         # decode the encrypted value to a unicode string, else this breaks in pgsql
         return encrypt_str(str(value)).decode('utf-8')
 
@@ -142,7 +138,7 @@ class EncryptedNullBooleanField(EncryptedMixin, django.db.models.NullBooleanFiel
         elif value is False:
             value = '0'
         if PY2:
-            return encrypt_str(unicode(value))
+            return encrypt_str(str(value))
         # decode the encrypted value to a unicode string, else this breaks in pgsql
         return encrypt_str(str(value)).decode('utf-8')
 

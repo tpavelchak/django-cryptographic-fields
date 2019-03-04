@@ -1,11 +1,9 @@
-from __future__ import unicode_literals
-
 from django.test import TestCase
 from django.core.exceptions import ImproperlyConfigured
 
 import cryptography.fernet
 
-import fields
+from . import fields
 
 
 class TestSettings(TestCase):
